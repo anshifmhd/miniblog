@@ -1,0 +1,35 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+
+
+
+<div class="row" id="body">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4 col-sm-12">
+        <div id="head_style">add Your comment</div>
+        <div class="center" id="form_body">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div align="center"><input type="text"  name="comment" placeholder="Add comment to this post"></div>
+                </div>
+                
+                <div class="row">
+                    <input id="submit" type="submit" value="done">
+                </div>
+                
+            </form>
+        </div>
+        
+
+    </div>
+    <div class="col-lg-4"></div>
+</div>
+
+
+
+
+
+
+{% endblock %}

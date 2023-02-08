@@ -1,0 +1,134 @@
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+
+
+
+
+
+<div class="container1" id="container1">
+	<div class="form-container1 sign-up-container1">
+		<form action="{% url 'user:login' %}" method="POST" onsubmit="return formvalidation()">
+			{% csrf_token %}
+			<h3>Create Account</h3>
+			<span>or use your email for registration</span>
+			<input type="text" placeholder="Name" name="Name" id="name" />
+			<small id="name_p"></small>
+			<input type="email" placeholder="Email" name="Email" id="email" />
+			<small id="email_p"></small>
+			<input type="text" placeholder="username" name="Username" id="username" />
+			<small id="username_p">{{error_msg}}</small>
+			<input type="password" placeholder="Password" name="Password" id="password" />
+			<small id="password_p"></small>
+			<button type="submit" name="u_register">Sign Up</button>
+		</form>
+	</div>
+	<div class="form-container1 sign-in-container1">
+		<form action="#" method="POST" >
+			{% csrf_token %}
+			<h1>Sign in</h1>
+			<div class="social-container1">
+                <a href="#" class="social"><i class='icon-facebook'></i></a>
+				<a href="#" class="social"><i class="icon-google-plus"></i></a>
+				<a href="#" class="social"><i class="icon-linkedin"></i></a>
+			</div>
+			<span>or use your account</span>
+			<input type="text" placeholder="username" name="username" />
+			<input type="password" placeholder="Password" name="password" />
+			<small>{{message}}</small>
+			<a href="#">Forgot your password?</a>
+			<button type='submit' name="u_login">Sign In</button>
+		</form>
+	</div>
+	<div class="overlay-container1">
+		<div class="overlay">
+			<div class="overlay-panel overlay-left">
+				<h1>Welcome to Mini Blog!</h1>
+				<p>To keep connected with us please login with your personal info</p>
+				<button class="ghost" id="signIn">Sign In</button>
+			</div>
+			<div class="overlay-panel overlay-right">
+				<h1>Welcome to Mini Blog!</h1>
+				<p>Enter your personal details and start journey with us</p>
+				<button class="ghost" id="signUp">Sign Up</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<script src="{% static 'js/login.js' %}"></script>
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+<script>
+	function formvalidation(){
+		var name = document.getElementById('name').value
+		var email = document.getElementById('email').value
+		var password = document.getElementById('password').value
+
+		var name_p = document.getElementById('name_p')
+		var email_p = document.getElementById('email_p')
+		var password_p = document.getElementById('password_p')
+
+		var lowerCaseLetters = /[a-z]/g;
+    	var upperCaseLetters = /[A-Z]/g;
+    	var numbers1 = /[0-9]/g;
+    	var specialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+		
+
+
+
+		status = 0
+
+		if (name == ""){
+			name_p.innerHTML= "name should be required"
+
+			status = 1
+
+		}else{
+			name_p.innerHTML = ""
+		}
+		
+		if(email == ""){
+			email_p.innerHTML = "email should be required"
+			status = 1
+		}else{
+			email_p.innerHTML = ""
+		}
+		
+		if(password == ""){
+			password_p.innerHTML = "password should be required"
+		}else{
+			password_p.innerHTML = ""
+		}
+		
+		
+
+		
+		if (password.length < 6 ){
+			password_p.innerHTML = "need more than 6 charecters"
+			status = 1
+		}else if(!password.match(lowerCaseLetters)){
+			password_p.innerHTML = "need 1 lowercase letter"
+			status = 1
+		}else if(!password.match(upperCaseLetters)){
+			password_p.innerHTML = "need 1 uppercase letter"
+			status = 1
+		}else if(!password.match(numbers1)){
+			password_p.innerHTML = "need atleast 1 number"
+			status = 1
+		}else if(!password.match(specialChar)){
+			password_p.innerHTML = "need atleast 1 symbol"
+			status = 1
+		}else{
+			password_p.innerHTML = ""
+		}
+
+		if (status == 1) {
+        	return false
+    	}
+	}
+</script>
+{% endblock %}

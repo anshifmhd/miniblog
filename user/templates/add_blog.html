@@ -1,0 +1,38 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+<div class="row" id="body">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4 col-sm-12">
+        <div id="head_style" >Add Your Blog</div>
+        <div class="center" id="form_body">
+            <form action="{% url 'user:add_blog' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row col-100"><div ><input type="text" name="title" id="title" placeholder="title of your blog"></div></div>
+                <div class="row col-100"><div ><input type="text" name="subtitle" id="subtitle" placeholder="subtitle of your blog"></div></div>
+                <div class="row col-100"><div ><input type="text" name="description" id="description" placeholder="Your blog description"></div></div>
+                <div class="row col-100"><div style="width: 225px;"><input type="file" name="image" id="image" placeholder="Upload images"></div></div>
+
+                
+                <div class="row">
+                    <input id="submit" type="submit" value="POST">
+                </div>
+                <small>{{mess}}</small>
+                
+            </form>
+        </div>
+        
+
+    </div>
+    <div class="col-lg-4"></div>
+</div>
+
+
+
+
+
+{% endblock %}

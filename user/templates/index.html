@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{% static 'css/form.css' %}">
+        <link rel="stylesheet" href="{% static 'css/index.css' %}">
+        
+
+        
+        
+    
+</head>
+
+<body>
+    <div class="head">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="#">Mini Blog</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="{% url 'user:index' %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                {% if 'userid' not in request.session %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'user:login' %}">Login</a></li>
+                {% endif %}
+                
+                {% if 'userid' in request.session %}
+					      <li class="nav-item"><a href="{% url 'user:add_blog' %}" class="nav-link">Add blog</a></li>
+					      <li class="nav-item"><a href="{% url 'user:change_password' %}" class="nav-link">Change Password</a></li>
+					      <li class="nav-item"><a href="{% url 'user:edit_profile' %}" class="nav-link">Edit profile</a></li>
+					      <li class="nav-item"><a href="{% url 'user:logout' %}" class="nav-link">Logout</a></li>
+                {% endif %}
+                
+              </ul>
+            </div>
+          </nav>
+    </div>
+
+    {% block content %}
+    <div class="row">
+       <div class="col-lg-12 col-sm-12">
+        <div class="front">
+          <img src="{% static 'images/img.jpg' %}" alt="" width="100%", height="500px">
+          <div class="centered"> <br> hi {{data.user.name}}, <br> welcome to Mini Blog!</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-12 col-sm-12"></div>
+        <div class="col-lg-4 col-md-12 col-sm-12">
+          <div id="head_style"><h1 style="font-weight: 700;">  Latest Blogs  </h1></div>
+        </div>
+        <div class="col-lg-4 col-md-12 col-sm-12"></div>
+      </div>
+      <div class="row">
+      {% for d in objects %}
+      <div class="col-lg-4 col-md-6 col-sm-4">      
+          <div class="card" style="width: 350px;">
+            <img class="card-img-top" src="{{d.image.url}}" alt="Card image cap">
+            
+
+
+              <!-- like portion -->
+                  <div class="row like">
+                    <div class="col-lg-1"><div class="icon-like" style="margin-top: 20px;"></div></div>
+                    <div class="col-lg-2"><a href="{% url 'user:comment' d.id %}"><i class="bi bi-chat  fa-2x" style="margin-left: 5px; color: rgba(0, 0, 0, 0.258);"></i></a></div>
+                  </div>
+                  <p class="card-text"><a href="{% url 'user:view_comment' d.id %}" style="color: white;">view all comments</a></p>
+                <div class="card-body1">
+              <h5 class="card-title"><b>{{d.title}}</b></h5>
+              <h6 class="card-title"><u>{{d.subtitle}}</u></h6>
+              <p class="card-text description">{{d.description}}</p>
+            </div>
+          </div>
+        </div>
+
+                  <!-- Modal -->
+<form action="" method="POST">
+  {% csrf_token %}
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="text" name="comment" id="comment" placeholder="enter comment on this blog...">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+        {% endfor %}
+
+        <br><br><br>
+
+
+<!-- modal end -->
+  </div>
+    </div><br><br><br><br>
+
+
+
+
+    {% endblock %}
+
+    <footer class="footer" style="font-size: 14px;">
+      <div class="">
+        <div class="container text-center py-5">
+          <div class="row">
+            <div class="col-lg-4 ">
+              <h4 class="font-weight-bold text-left">QUICK LINKS</h4>
+              <ul class="text-left py-3">
+                <a href="{% url 'user:login' %}" id="example">Login</a><br>
+                <a href="#" id="example">Register</a><br>
+                <a href="{% url 'user:edit_profile' %}" id="example">Edit Profile</a><br>
+                <a href="{% url 'user:change_password' %}" id="example">Change password</a><br>
+                <a href="{% url 'user:logout' %}" id="example">Log out</a><br>
+
+              </ul>
+  
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <h3 class="font-weight-bold text-left">About Blogs</h3>
+              <ul class="text-left py-3">
+                <a href="#" id="example">Add blog</a><br>
+                <a href="#" id="example">Latest blogs</a><br>
+                <a href="#" id="example">Popular blogs</a><br>
+                <a href="#" id="example">View your blogs</a><br>
+                <a href="#" id="example">View all blogs</a><br>
+              </ul>
+            </div>
+  
+            <div class="col-lg-4">
+              
+              <h3>
+                <p class="px-4">Follow Us</p><br><br>
+
+                <span class="mr-4"><i class="bi bi-instagram"></i></span>
+                <span class="mr-4"><i class="bi bi-facebook"></i></span>
+                <span class="mr-4"><i class="bi bi-twitter"></i></span>
+                <span class="mr-4"><i class="bi bi-linkedin"></i></span>
+                <span class="mr-4"><i class="bi bi-youtube"></i></span>
+              </h3><br>
+              <p><a href="#">abcdhospital@gmail.com</a></p> |
+              <p><a href="#">about</a></p>
+  
+  
+  
+  
+  
+  
+  
+            </div>
+          </div>
+          <hr>
+  
+          
+        </div>
+      </div>
+  
+    </footer>
+
+
+
+
+
+<script>
+  $('.icon-like').on('click', function(){
+    $(this).toggleClass('in-like');
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+
+
+
+
+<div class="row" id="body">
+    <div class="col-lg-4"></div>
+    <div class="col-lg-4 col-sm-12">
+        <div id="head_style">Edit Your Details</div>
+        <div class="center" id="form_body">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-25"><label for="name">Name:</label></div>
+                    <div class="col-75"><input type="text"  name="name" value="{{data.user.name}}"></div>
+                </div>
+                <div class="row">
+                    <div class="col-25"><label for="name">Email:</label></div>
+                    <div class="col-75"><input type="text" name="email" value="{{data.user.email}}"></div>
+                </div>
+                <div class="row">
+                    <div class="col-25"><label for="name">Username:</label></div>
+                    <div class="col-75"><input type="text" name="username" value="{{data.username}}"></div>
+                </div>
+                <div class="row">
+                    <input id="submit" type="submit" value="Update">
+                </div>
+                
+            </form>
+        </div>
+        
+
+    </div>
+    <div class="col-lg-4"></div>
+</div>
+
+
+
+
+{% endblock %}
